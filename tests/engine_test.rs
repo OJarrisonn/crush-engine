@@ -1,15 +1,21 @@
-use krush_engine::{Engine, Definition, Type, Value};
+use std::cell::Cell;
+
+use krush_engine::{Engine, Definition, Type, definition, Value};
 
 #[test]
 fn create() {
-    let mut last = Box::new(0);
+    let last = Cell::new(0);
     let mut engine = Engine::new();
 
-    fn command_func(args: Vec<Value>, last: Box<i32>) -> Option<String> {
-        *last += 1;
-        println!("{}", last);
+    engine.register_command("print", definition!([Type::Int], |args| {
+        let res = args[0].unwrap_i32().unwrap();
+        last.set(res);
+        println!("{}", last.get());
         None
-    }
+    }));
 
-    engine.register_command("print", Definition::new(Vec::from([Type::Int]), Box::new(|args| command_func(args, last))));
+    let _ = engine.evaluate("print 5".to_string());
+    let _ = engine.evaluate("print 8".to_string());
+
+    println!("{}", last.get());
 }

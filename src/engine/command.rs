@@ -1,6 +1,9 @@
 use crate::error::Error;
 
+pub type Callback<'a> = Box<dyn FnMut(Vec<Value>) -> Option<String> + 'a>;
+
 /// Used to describe the type of each argument in a [`Definition`]
+#[derive(Clone, Copy)]
 pub enum Type {
     Str,
     Int,
@@ -19,13 +22,17 @@ pub enum Value {
 }
 
 /// Structure where to set the arguments using [`Type`] and the callback function to be called on the command evaluation by [`Engine::evaluate`] [`crate::Value::unwrap_str()`]
-pub struct Definition {
+pub struct Definition<'a> {
     args: Vec<Type>,
-    callback: Box<dyn FnMut(Vec<Value>) -> Option<String>>
+    callback: Callback<'a>
 }
 
-impl Definition {
-    pub fn new(args: Vec<Type>, callback: Box<dyn FnMut(Vec<Value>) -> Option<String>>) -> Self {
+impl<'a> Definition<'a> {
+    pub fn build(args: &[Type], callback: Callback<'a>) -> Self {
+        Self::new(args.to_vec(), Box::new(callback))
+    }
+    
+    pub fn new(args: Vec<Type>, callback: Callback<'a>) -> Self {
         Self { args, callback }
     }
 
@@ -33,7 +40,7 @@ impl Definition {
         &self.args
     }
 
-    pub fn callback(&mut self) -> &mut Box<dyn FnMut(Vec<Value>) -> Option<String>> {
+    pub fn callback(&mut self) -> &mut Callback<'a> {
         &mut self.callback
     }
 }
