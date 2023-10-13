@@ -1,5 +1,6 @@
 use crate::{Value, Type, error::Error};
 
+/// Takes a command String, returns the name, and strip it from the command String
 pub fn get_name(command: &mut String) -> String {
     let pos = command.find(' ').unwrap_or_else(|| command.len());
     let name = (&command[..pos]).to_string();
@@ -7,6 +8,7 @@ pub fn get_name(command: &mut String) -> String {
     name
 }
 
+/// Receives a vector of the arg types and parse a string of args, returning a Vec of values where each value matches the corresponding Type, or an Error if it fails
 pub fn parse_args(definition: &Vec<Type>, raw_args: &mut String) -> Result<Vec<Value>, Error> {
     let mut args: Vec<Value> = vec![];
     let mut raw_args = raw_args.trim();

@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "crush-engine"
+name = "krush-engine"
 version = "0.1.0"

@@ -1,5 +1,6 @@
 use crate::error::Error;
 
+/// Used to describe the type of each argument in a [`Definition`]
 pub enum Type {
     Str,
     Int,
@@ -8,6 +9,7 @@ pub enum Type {
     List
 }
 
+/// The values obtained from parsing a command arguments following its [`Definition`]
 pub enum Value {
     Str(String),
     Int(i32),
@@ -16,6 +18,7 @@ pub enum Value {
     List(Vec<String>)
 }
 
+/// Structure where to set the arguments using [`Type`] and the callback function to be called on the command evaluation by [`Engine::evaluate`] [`crate::Value::unwrap_str()`]
 pub struct Definition {
     args: Vec<Type>,
     callback: fn(Vec<Value>) -> Option<String>
