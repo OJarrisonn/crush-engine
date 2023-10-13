@@ -1,6 +1,6 @@
 [package]
 name = "krush-engine"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Jorge Harrisonn <j.h.m.t.v.10@gmail.com>"]
 edition = "2021"
 license = "MIT"
@@ -10,6 +10,8 @@ readme = "README.md"
 repository = "https://github.com/OJarrisonn/krush-engine"
 keywords = ["interpreter", "shell"]
 categories = ["command-line-interface", "parser-implementations"]
+
+exclude = ["tests"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
