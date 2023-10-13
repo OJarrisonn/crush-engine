@@ -7,18 +7,18 @@ use self::command::Definition;
 pub mod command;
 
 /// The place where to register your commands and run them
-pub struct Engine {
-    registry: HashMap<String, Definition>
+pub struct Engine<'a> {
+    registry: HashMap<String, Definition<'a>>
 }
 
-impl Engine {
+impl<'a> Engine<'a> {
     /// Creates a new empty `Engine`
     pub fn new() -> Self {
         Self { registry: HashMap::new() }
     }
 
     /// Adds a new command to the `Engine` registry with given name and [`Definition`]
-    pub fn register_command(&mut self, name: &'static str, definition: Definition) {
+    pub fn register_command(&mut self, name: &'static str, definition: Definition<'a>) {
         self.registry.insert(name.to_string(), definition);
     }
 
