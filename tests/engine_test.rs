@@ -1,6 +1,6 @@
 use std::cell::Cell;
 
-use krush_engine::{Engine, Definition, Type, definition, Value};
+use krush_engine::{Engine, Definition, Type, definition};
 
 #[test]
 fn create() {
