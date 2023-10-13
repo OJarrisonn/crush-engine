@@ -11,14 +11,6 @@ repository = "https://github.com/OJarrisonn/krush-engine"
 keywords = ["interpreter", "shell"]
 categories = ["command-line-interface", "parser-implementations"]
 
-
-[lib]
-name = "krush_engine"
-edition = "2021"
-path = "src/lib.rs"
-doc = true
-crate-type = ["lib"]
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
