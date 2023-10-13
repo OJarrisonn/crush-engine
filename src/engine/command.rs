@@ -21,11 +21,11 @@ pub enum Value {
 /// Structure where to set the arguments using [`Type`] and the callback function to be called on the command evaluation by [`Engine::evaluate`] [`crate::Value::unwrap_str()`]
 pub struct Definition {
     args: Vec<Type>,
-    callback: fn(Vec<Value>) -> Option<String>
+    callback: Box<dyn FnMut(Vec<Value>) -> Option<String>>
 }
 
 impl Definition {
-    pub fn new(args: Vec<Type>, callback: fn(Vec<Value>) -> Option<String>) -> Self {
+    pub fn new(args: Vec<Type>, callback: Box<dyn FnMut(Vec<Value>) -> Option<String>>) -> Self {
         Self { args, callback }
     }
 
@@ -33,8 +33,8 @@ impl Definition {
         &self.args
     }
 
-    pub fn callback(&mut self) -> &fn(Vec<Value>) -> Option<String> {
-        &self.callback
+    pub fn callback(&mut self) -> &mut Box<dyn FnMut(Vec<Value>) -> Option<String>> {
+        &mut self.callback
     }
 }
 
