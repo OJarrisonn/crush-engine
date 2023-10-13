@@ -13,7 +13,7 @@ categories = ["command-line-interface", "parser-implementations"]
 
 
 [lib]
-name = "krush-engine"
+name = "krush_engine"
 edition = "2021"
 path = "src/lib.rs"
 doc = true
