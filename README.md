@@ -15,6 +15,10 @@ Once you've defined an ```Engine``` with all the commands you want using the ```
 This project were written in a day to be used for my homework so there are several unimplemented features and potential bugs (actually, ```krush``` doesn't even exists at the moment).
 
 # Changelog
+## v0.3.0
+- Now a Engine can be captured by a thread closure
+- Values captured by a definition closure must be Arc<Mutex<T>>
+- A defition closure must be a ``move`` closure
 ## v0.2.0
 - Now a Definition uses a closure instead of a function pointer, which allows to modify values in the surrounding context by putting them into ``Cell`` or ``RefCell``(for types who doesn't implement the ``Copy`` trait)
 - Added ```definition!``` macro which creates a new ```Definition``` from an array of ```Type``` and a closure.
