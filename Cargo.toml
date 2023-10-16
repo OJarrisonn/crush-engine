@@ -1,6 +1,6 @@
 [package]
 name = "krush-engine"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Jorge Harrisonn <j.h.m.t.v.10@gmail.com>"]
 edition = "2021"
 license = "MIT"
