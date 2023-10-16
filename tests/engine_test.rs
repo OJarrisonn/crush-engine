@@ -1,27 +1,28 @@
-use std::cell::{Cell, RefCell};
+use std::{thread, sync::{Arc, Mutex}};
 
-use krush_engine::{Engine, Definition, Type, definition};
+use krush_engine::{Engine, Definition, Type, definition, Value};
 
 #[test]
 fn create() {
-    let last = RefCell::new(String::new());
-    let count = Cell::new(0);
     let mut engine = Engine::new();
+    let text = Arc::new(Mutex::new(String::new()));
+    let text_c = Arc::clone(&text);
 
-    engine.register_command("print", definition!([Type::Str], |args| { 
-        let text = args[0].unwrap_str().unwrap();
-        println!("{}", text);
+    engine.register_command("print", definition!([Type::Str], move |args: Vec<Value>| -> Option<String> {
+        let msg = args[0].unwrap_str().unwrap();
 
-        *last.borrow_mut() = text;
-        count.set(count.get() + 1);
+        let mut r = text_c.lock().unwrap();
+        *r = msg;
 
-        None 
+        println!("{}", &r);
+        None
     }));
 
-    let _ = engine.evaluate("print \"Hello World!\"".to_string());
-    println!("Last is: {}", last.borrow());
-    let _ = engine.evaluate("print \"This is Krush Engine!\"".to_string());
-    println!("Last is: {}", last.borrow());
-    let _ = engine.evaluate("print \"Thank You!\"".to_string());
-    println!("Last is: {}\nCount is {}", last.borrow(), count.get());
+    let mut engine_thread = engine.clone();
+    let mut engine_thread_2 = engine.clone();
+    let t1 = thread::spawn(move || engine_thread.evaluate("print \"Mensagem de teste 2\"".to_string()));
+    let t2 = thread::spawn(move || engine_thread_2.evaluate("print \"Mensagem de teste 2\"".to_string()));
+    let _ = t1.join().unwrap();
+    let _ = t2.join().unwrap();
+    println!("A mensagem foi: {}", &text.lock().unwrap());
 }

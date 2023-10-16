@@ -7,6 +7,7 @@ use self::command::Definition;
 pub mod command;
 
 /// The place where to register your commands and run them
+#[derive(Clone)]
 pub struct Engine<'a> {
     registry: HashMap<String, Definition<'a>>
 }
@@ -32,7 +33,7 @@ impl<'a> Engine<'a> {
             Some(definition) => {
                 let args = parser::parse_args(definition.args(), &mut command)?;
 
-                Ok((definition.callback())(args))
+                Ok((definition.callback().lock().unwrap())(args))
             },
             None => Err(Error(format!("Unknown command: {}", name))),
         }
